@@ -1,14 +1,14 @@
 {
   "development": {
-    "username": "root",
-    "password": "",
+    "username": "pradi",
+    "password": "123",
     "database": "Votaciones",
     "host": "127.0.0.1",
     "dialect": "mysql"
     
   },
   "test": {
-    "username": "root",
+    "username": "pradi",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
@@ -17,7 +17,7 @@
 
   },
   "production": {
-    "username": "root",
+    "username": "pradi",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",

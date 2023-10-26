@@ -10,7 +10,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       seleccion: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       votanteId: {
         type: Sequelize.INTEGER,

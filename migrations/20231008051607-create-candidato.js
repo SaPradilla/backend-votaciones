@@ -10,19 +10,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nombre: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       apellido: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       foto: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       biografia: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       cargo_postulante:{
-        type: Sequelize.ENUM('Alcalde','Gobernador','Junta Comunal','Asamblea','Representante SENA')
+        type: Sequelize.ENUM('Alcalde','Gobernador','Junta Comunal','Asamblea','Representante SENA'),
+        allowNull:false
       },
       createdAt: {
         allowNull: false,

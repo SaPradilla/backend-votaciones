@@ -10,10 +10,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nombre: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       apellido: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       tipo_documento: {
         type: Sequelize.ENUM('CC','TI')
@@ -24,10 +26,12 @@ module.exports = {
         unique: true
       },
       numero_celular: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       correo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       contrasena:{
         type: Sequelize.STRING,

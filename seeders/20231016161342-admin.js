@@ -5,9 +5,9 @@ module.exports = {
   async up (queryInterface, Sequelize) {
      await queryInterface.bulkInsert('votantes', [{
        nombre: 'adminUwu',
-       apellido:'',
+       apellido:'uww',
        tipo_documento:'CC',
-       documento:'108560',
+       documento:'1087546958',
        numero_celular:'31232747',
        correo:'correo@correo.com',
        contrasena: await Encrypt.cryptPassword('sena123'),
