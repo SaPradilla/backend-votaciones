@@ -25,7 +25,7 @@ const Create = async(req,res)=>{
 
             })
         }
-    
+        // Crear el voto
         const nuevoVoto = Voto.create({
             candidatoId,
             votanteId
@@ -33,6 +33,7 @@ const Create = async(req,res)=>{
         return res.status(200).json({
             msg:'Se ha registrado el voto',
             voto: nuevoVoto,
+            // este dato se valida en el frontend y se almacena en un state
             yaVoto:true,
             seleccion:seleccion
         })
@@ -47,14 +48,17 @@ const Create = async(req,res)=>{
 }
 
 const CreateBlanco = async(req,res)=>{
+    // Require dos parametros, la seleccion y el votante
+    const {seleccion,votanteId} = req.params
     try{
-        const {seleccion,votanteId} = req.params
+        // Ecuentra los votos en blanco por la seleccion y el votante
         const findVotoBlanco = await Blanco.findOne({
             where:{
                 seleccion:seleccion,
                 votanteId:votanteId
             }
         })
+        // Si encuentra es porque ya voto en blanco
         if(findVotoBlanco){
             return res.json({
                 msg:'Solo puedes votar por un cargo una vez.',
@@ -62,15 +66,17 @@ const CreateBlanco = async(req,res)=>{
                 seleccion:seleccion
             })
         }
+        // Crea el voto en blanco
         const votoBlanco = Blanco.create({
             seleccion:seleccion,
             votanteId:votanteId
         })
-
+        // Retorna el voto en blanco creado
         return res.status(200).json({
             msg:'Se ha registrado el voto en blanco',
             voto: votoBlanco,
             seleccion:seleccion,
+            // este dato se valida en el frontend y se almacena en un state
             yaVoto:true
         })
     }catch(error){
@@ -83,8 +89,10 @@ const CreateBlanco = async(req,res)=>{
 }
 
 const Listar = async(req,res)=>{
+    // Requiere el parametro seleccion
     const {seleccion} = req.params
-    // try{
+    try{
+        // Buscar todos los votos de una seleccion 
         const VotosCandidatos = await Voto.findAll({
             include:[
                 {
@@ -98,30 +106,33 @@ const Listar = async(req,res)=>{
                 }
             ]
         })
+        // Busca todos los votos en blanco de una seleccion
         const VotosBlanco = await Blanco.findAll({
             where:{
                 seleccion:seleccion
             }
         })
+        // hace una copia de los objectos encontrador y los almacena en un arreglo
         const Votos = [...VotosCandidatos, ...VotosBlanco];
+        // Retorna este arreglo en el json
         return res.json({
             msg:'Se ha listado los votos con exito',
             Votos: Votos
         })
 
-    // }catch(error){
-    //     return res.status(500).json({
-    //         msg:'Hubo un error al listar los votos',
-    //         errroName : error.name,
-    //         error: error
-    //     })
-    // }
+    }catch(error){
+        return res.status(500).json({
+            msg:'Hubo un error al listar los votos',
+            errroName : error.name,
+            error: error
+        })
+    }
 }
 
 const VerVotosCandidato = async(req,res)=>{
     const { id } = req.params
     try{
-        // metodos para validar la existencia de los ids
+        // Trae todos los votos de un candidato 
         const Votos = await Voto.findOne({
             where:{
                 candidatoId: id
@@ -132,7 +143,7 @@ const VerVotosCandidato = async(req,res)=>{
                 }
             ]
         })
-
+        // Retorna el json con los votos
         return res.json({
             msg:'Se ha visualizar el voto con exito',
             Votos: Votos

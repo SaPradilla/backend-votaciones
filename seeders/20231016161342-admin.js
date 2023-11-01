@@ -3,6 +3,7 @@ const Encrypt = require('../middleware/auth')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    // Semilla del administrador
      await queryInterface.bulkInsert('votantes', [{
        nombre: 'adminUwu',
        apellido:'uww',

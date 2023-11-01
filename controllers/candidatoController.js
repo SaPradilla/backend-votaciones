@@ -14,8 +14,6 @@ const subirArchivo = (req,res,next)=>{
 const Create = async(req,res)=>{
     const {nombre,apellido,biografia,cargo_postulante} = req.body
     try{
-        console.log(req.file)
-    
         const newCandidato = await Candidato.create({
             nombre,
             apellido,
