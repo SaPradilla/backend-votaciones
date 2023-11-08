@@ -3,7 +3,7 @@ const router = express.Router()
 const VotanteRoute = require('./votantes')
 const CandidatoRoute = require('./candidatos')
 const VotosRoute = require('./votos')
-
+// Enrutador
 const routersList = [
     {
         path:'/votante',  

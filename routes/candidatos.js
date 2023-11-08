@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
+const {upload} = require('../helpers/logicImagen')
+
 // controlador 
 const Controller = require('../controllers/candidatoController')
 
 router 
     //Registrar Candidato
-    .post('/registrar',Controller.subirArchivo,Controller.Create)
+    .post('/registrar',upload,Controller.subirArchivo,Controller.Create)
     // Listar todos los candidatos
     .get('/listar/:cargo',Controller.List)
 

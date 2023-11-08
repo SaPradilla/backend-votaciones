@@ -1,14 +1,20 @@
 const db = require('../models')
 const Candidato = db.candidato
-const LogicHelper = require('../helpers/logicImagen')
+const cloudinary = require('cloudinary').v2;
 
-const subirArchivo = (req,res,next)=>{
-    LogicHelper.upload(req,res,(error)=>{
-        if(error){
-            return res.json({msg:error})
+const subirArchivo = (req,res,next) => {
+    console.log('Buffer de la imagen:', req.file.buffer);
+    // Subir la imagen a Cloudinary
+    cloudinary.uploader.upload_stream({ resource_type: 'auto' }, (error, result) => {
+        if (error) {
+          return next(new Error('Error al subir la imagen a Cloudinary'));
         }
-        return next()
-    })
+    
+        // Almacenar la URL de la imagen en req para que puedas usarla más adelante
+        req.imageUrl = result.secure_url;
+        next();
+        
+    }).end(req.file.buffer);
 }
 
 const Create = async(req,res)=>{
@@ -19,7 +25,7 @@ const Create = async(req,res)=>{
             apellido,
             biografia,
             cargo_postulante,
-            foto:req.file.filename
+            foto:req.imageUrl
         })
         return res.status(200).json({
             msg:'Cantidado registrado correctamente.',
@@ -33,6 +39,7 @@ const Create = async(req,res)=>{
         })
     }
 }
+
 const List = async(req,res)=>{
     try{
         const { cargo } = req.params

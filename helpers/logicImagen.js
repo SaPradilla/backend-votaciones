@@ -1,29 +1,32 @@
+require('dotenv').config()
+// Importacion de cloudinary
+const cloudinary = require('cloudinary').v2;
 // Importar Multer
 const multer = require('multer')
 
-// Metodo para configurar la imaen
-const configuracionMulter= {
-    storage:fileStorage = multer.diskStorage({
-        // Se asigna la ruta donde se almacena
-        destination:(req,file, cb)=>{
-            cb(null,__dirname+'../../candidatos')
-        },
-        // Se renombra 
-        filename:(req,file,cb)=>{
-            const extension = file.mimetype.split('/')[1];
-            cb(null,`${Date.now()}.${extension}`);
-        }
-    }),
-    // Detecta si la imagen tiene la extensio correcta
-    fileFilter(req,file,cb){
-        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
-            cb(null,true)
-        }else{
-            cb(new Error('Formato No Válido'))
-        }
-    }
-}
-// Metodo para subir la imagen con la configuracion
-const upload = multer(configuracionMulter).single('foto')
+// Configuracion del cloundinary
+cloudinary.config({
+    cloud_name: 'dznrcsgts',
+    api_key: '968959636762895',
+    api_secret: process.env.API_KEY
+});
 
-module.exports = {upload}
+
+// Metodo para configurar la imagen
+// Almacenamiento en memoria, ya que Cloudinary lo necesita así
+const fileStorage = multer.memoryStorage();
+
+// Metodo para subir la imagen con la configuracion
+const upload = multer({
+    storage: fileStorage,
+    // Detecta si la imagen tiene la extensión correcta
+    fileFilter(req, file, cb) {
+        if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            cb(null, true);
+        } else {
+            cb(new Error('Formato No Válido'));
+        }
+    },
+}).single('foto');
+
+module.exports = { upload }
