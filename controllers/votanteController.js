@@ -10,9 +10,21 @@ const Create = async (req, res) => {
     // Require esto del formulario
     const { nombre, apellido, tipo_documento, documento, numero_celular, correo } = req.body
     try {
-        // Encripta la contraseña 
+        // Encripta la contraseña
         const password_hash = await Encrypt.cryptPassword(req.body.contrasena)
         // Crear el votante
+        const votanteFound = await Votante.findOne(
+            {
+                where: {
+                    documento: documento
+                }
+            })
+        if(!votanteLogin){
+            return res.status(500).json({
+                msg:'El documento ya esta registrado'
+            })
+        }
+
         const newVotante = await Votante.create({
             nombre: nombre,
             apellido: apellido,
@@ -24,7 +36,6 @@ const Create = async (req, res) => {
             // Si el tipo de documento es ti es true, sino false
             isMenor:tipo_documento === 'TI' ? true : false
         })
-
         return res.status(200).json({
             msg: 'Votante regitrado correctamente',
             Votante: newVotante

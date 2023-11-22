@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   votante.init({
     nombre: DataTypes.STRING,
     apellido: DataTypes.STRING,
-    tipo_documento: DataTypes.ENUM('CC','TI'),
+    tipo_documento: DataTypes.ENUM('CC','TI','CE','PPT','PP'),
     documento: DataTypes.STRING,
     numero_celular: DataTypes.STRING,
     correo: DataTypes.STRING,
