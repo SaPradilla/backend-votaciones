@@ -11,7 +11,7 @@ module.exports = {
        documento:'1087546958',
        numero_celular:'31232747',
        correo:'correo@correo.com',
-       contrasena: await Encrypt.cryptPassword('sena123'),
+       contrasena: await Encrypt.cryptPassword('sena123456'),
        isMenor:false,
        createdAt: '2023-10-18 19:20:40',
        updatedAt:'2023-10-18 19:20:40'

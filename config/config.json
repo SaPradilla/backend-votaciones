@@ -1,22 +1,27 @@
 {
   "development": {
     "username": "root",
-    "password": "",
-    "database": "votaciones",
+    "password": "Cca2caba3gDB25bD6geC5BhchG-a53Fa",
+    "database": "railway",
+    "host": "roundhouse.proxy.rlwy.net",
     "dialect": "mysql",
-    "host":"127.0.0.1",
-    "port":3307
+    "port":22742
   },
   "test": {
-    "username": "pradi",
-    "password": "123",
-    "database": "votaciones",
-    "dialect": "mysql"
+    "username": "root",
+    "password": "Cca2caba3gDB25bD6geC5BhchG-a53Fa",
+    "database": "railway",
+    "host": "roundhouse.proxy.rlwy.net",
+    "dialect": "mysql",
+    "port":22742
   },
   "production": {
-    "username": "pradi",
-    "password": "123",
-    "database": "votaciones",
-    "dialect": "mysql"
+    "username": "root",
+    "password": "Cca2caba3gDB25bD6geC5BhchG-a53Fa",
+    "database": "railway",
+    "host": "roundhouse.proxy.rlwy.net",
+    "dialect": "mysql",
+    "port":22742
   }
 }
+
