@@ -19,7 +19,7 @@ const Create = async (req, res) => {
                     documento: documento
                 }
             })
-        if(!votanteLogin){
+        if(votanteFound){
             return res.status(500).json({
                 msg:'El documento ya esta registrado'
             })

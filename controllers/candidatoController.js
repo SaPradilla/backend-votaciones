@@ -3,7 +3,7 @@ const Candidato = db.candidato
 const cloudinary = require('cloudinary').v2;
 
 const subirArchivo = (req,res,next) => {
-    console.log('Buffer de la imagen:', req.file.buffer);
+    // console.log('Buffer de la imagen:', req.file.buffer);
     // Subir la imagen a Cloudinary
     cloudinary.uploader.upload_stream({ resource_type: 'auto',folder:'votaciones' }, (error, result) => {
         if (error) {
@@ -19,7 +19,19 @@ const subirArchivo = (req,res,next) => {
 
 const Create = async(req,res)=>{
     const {nombre,apellido,biografia,cargo_postulante} = req.body
+    
     try{
+        const Candidatos = await Candidato.findAll({
+            where:{
+                cargo_postulante:cargo
+            }
+        })
+        console.log(Candidatos.length)
+        if(Candidatos.length === 6){
+            return res.status(401).json({
+                msg:'Ya no puedes registrar mas candidatos'
+            })
+        }
         const newCandidato = await Candidato.create({
             nombre,
             apellido,
@@ -40,6 +52,43 @@ const Create = async(req,res)=>{
     }
 }
 
+const Update = async(req,res)=>{
+    const {id} = req.params
+    try{
+        let nuevoCandidato = req.body
+
+        if(req.file){
+            nuevoCandidato.foto =  req.imageUrl
+            console.log('se ejecuto')
+
+        }else{
+            let findCandidato = await Candidato.findOne({
+                where:id
+            })
+            if(findCandidato){
+                return res.status(404).json({
+                msg:'No se encontro el candidato'
+                })
+            }
+            nuevoCandidato.foto = findCandidato.foto
+        }
+
+        const editCandidato = await Candidato.update({
+            nuevoCandidato
+        },{
+            where:{
+                id
+            }
+        })  
+        return res.json({
+            msg:'Candidatos actualizado correctamente.',
+            Candidatos: editCandidato
+        })
+        
+    }catch(error){
+    }
+}
+
 const List = async(req,res)=>{
     try{
         const { cargo } = req.params
@@ -48,7 +97,8 @@ const List = async(req,res)=>{
                 cargo_postulante:cargo
             }
         })
-        if(Candidato.length){
+        console.log(Candidatos.length)
+        if(Candidatos.length === 0){
             return res.status(404).json({
                 msg:'No hay candidatos'
             })
@@ -66,4 +116,4 @@ const List = async(req,res)=>{
     }
 }
 
-module.exports = {Create,subirArchivo,List}
+module.exports = {Create,subirArchivo,List,Update}
