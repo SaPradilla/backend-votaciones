@@ -23,7 +23,7 @@ const Create = async(req,res)=>{
     try{
         const Candidatos = await Candidato.findAll({
             where:{
-                cargo_postulante:cargo
+                cargo_postulante:cargo_postulante
             }
         })
         console.log(Candidatos.length)

@@ -11,7 +11,7 @@ router
     // Listar todos los candidatos
     .get('/listar/:cargo',Controller.List)
     
-    .put('/editar/id',upload,Controller.subirArchivo,Controller.Update)
+    .put('/editar/:id',upload,Controller.subirArchivo,Controller.Update)
 
 
 module.exports = router
