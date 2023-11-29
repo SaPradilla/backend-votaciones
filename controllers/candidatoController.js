@@ -116,4 +116,28 @@ const List = async(req,res)=>{
     }
 }
 
-module.exports = {Create,subirArchivo,List,Update}
+const ListAll = async(req,res)=>{
+    try{
+        
+        const Candidatos = await Candidato.findAll()
+        console.log(Candidatos.length)
+
+        if(Candidatos.length === 0){
+            return res.status(404).json({
+                msg:'No hay candidatos'
+            })
+        }
+        return res.json({
+            msg:'Candidatos visualizados correctamente.',
+            Candidatos: Candidatos
+        })
+    }catch(error){
+        return res.status(500).json({
+            msg:'Hubo un error al listar',
+            errroName : error.name,
+            error: error
+        })
+    }
+}
+
+module.exports = {Create,subirArchivo,List,Update,ListAll}
