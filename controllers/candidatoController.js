@@ -140,4 +140,27 @@ const ListAll = async(req,res)=>{
     }
 }
 
-module.exports = {Create,subirArchivo,List,Update,ListAll}
+const Delete = async(req,res)=>{
+    const {id} = req.params
+    try {
+        const findCandidato = await Candidato.findOne({
+            where:id
+        })
+        
+        if(findCandidato){
+            return res.status(404).json({
+                msg:'No se encontro el candidato'
+            })
+        }
+
+        await Candidato.destroy({
+            where:{
+                id
+            }
+        })
+    } catch (error) {
+        
+    }
+}
+
+module.exports = {Create,subirArchivo,List,Update,ListAll,Delete}

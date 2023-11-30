@@ -14,6 +14,7 @@ router
     
     
     .put('/editar/:id',upload,Controller.subirArchivo,Controller.Update)
+    .delete('/borrar/:id',Controller.Delete)
 
 
 module.exports = router
