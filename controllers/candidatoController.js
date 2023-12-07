@@ -3,7 +3,10 @@ const Candidato = db.candidato
 const cloudinary = require('cloudinary').v2;
 
 const subirArchivo = (req,res,next) => {
-    // console.log('Buffer de la imagen:', req.file.buffer);
+    if (!req.file) {
+        // No file uploaded, continue to the next middleware
+        return next();
+    }
     // Subir la imagen a Cloudinary
     cloudinary.uploader.upload_stream({ resource_type: 'auto',folder:'votaciones' }, (error, result) => {
         if (error) {
@@ -53,19 +56,23 @@ const Create = async(req,res)=>{
 }
 
 const Update = async(req,res)=>{
+    console.log('Se ejecuto AQUIIII')
     const {id} = req.params
     try{
         let nuevoCandidato = req.body
-
+        
         if(req.file){
             nuevoCandidato.foto =  req.imageUrl
-            console.log('se ejecuto')
-
+            
         }else{
             let findCandidato = await Candidato.findOne({
-                where:id
+                where:{
+                    id:id
+                }
             })
-            if(findCandidato){
+            // console.log(findCandidato)
+
+            if(!findCandidato){
                 return res.status(404).json({
                 msg:'No se encontro el candidato'
                 })
@@ -73,19 +80,24 @@ const Update = async(req,res)=>{
             nuevoCandidato.foto = findCandidato.foto
         }
 
-        const editCandidato = await Candidato.update({
-            nuevoCandidato
-        },{
+        const editCandidato = await Candidato.update(
+            nuevoCandidato,
+            {
             where:{
                 id
             }
         })  
-        return res.json({
+        return res.status(200).json({
             msg:'Candidatos actualizado correctamente.',
             Candidatos: editCandidato
         })
         
     }catch(error){
+        return res.status(500).json({
+            msg:'Hubo un error al editar',
+            errroName : error.name,
+            error: error
+        })
     }
 }
 
@@ -97,7 +109,7 @@ const List = async(req,res)=>{
                 cargo_postulante:cargo
             }
         })
-        console.log(Candidatos.length)
+
         if(Candidatos.length === 0){
             return res.status(404).json({
                 msg:'No hay candidatos'
@@ -120,7 +132,6 @@ const ListAll = async(req,res)=>{
     try{
         
         const Candidatos = await Candidato.findAll()
-        console.log(Candidatos.length)
 
         if(Candidatos.length === 0){
             return res.status(404).json({
@@ -144,10 +155,12 @@ const Delete = async(req,res)=>{
     const {id} = req.params
     try {
         const findCandidato = await Candidato.findOne({
-            where:id
+            where:{
+                id:id
+            }
         })
         
-        if(findCandidato){
+        if(!findCandidato){
             return res.status(404).json({
                 msg:'No se encontro el candidato'
             })
@@ -159,7 +172,11 @@ const Delete = async(req,res)=>{
             }
         })
     } catch (error) {
-        
+        return res.status(500).json({
+            msg:'Hubo un error al borrar',
+            errroName : error.name,
+            error: error
+        })
     }
 }
 

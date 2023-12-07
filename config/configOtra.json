@@ -1,0 +1,22 @@
+
+
+{
+  "development": {
+    "username": "pradi",
+    "password": "123",
+    "database": "votaciones",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "pradi",
+    "password": "123",
+    "database": "votaciones",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "pradi",
+    "password": "123",
+    "database": "votaciones",
+    "dialect": "mysql"
+  }
+}

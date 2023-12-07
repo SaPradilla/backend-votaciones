@@ -7,13 +7,13 @@ const Controller = require('../controllers/candidatoController')
 
 router 
     //Registrar Candidato
-    .post('/registrar',upload,Controller.subirArchivo,Controller.Create)
     // Listar todos los candidatos
     .get('/listar/:cargo',Controller.List)
     .get('/listar/',Controller.ListAll)
     
-    
+    .post('/registrar',upload,Controller.subirArchivo,Controller.Create)
     .put('/editar/:id',upload,Controller.subirArchivo,Controller.Update)
+    
     .delete('/borrar/:id',Controller.Delete)
 
 
